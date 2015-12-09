@@ -1,20 +1,26 @@
 import os
 import json
 import requests
+from django.core.cache import cache
 
 CLIENT_ID='ZVu6cFFGxMJohgsaDsbLfu9jNs4pQEif'
 CLIENT_SECRET='47C2LzDqv9b7C120'
 
 def get_apigee_token():
     access_token = None
-    req = requests.post("https://developer.api.autodesk.com/authentication/v1/authenticate",
-                        data={'client_id': CLIENT_ID,
-                              'client_secret': CLIENT_SECRET,
-                              'grant_type': 'client_credentials'
-                             }, verify=False)
 
-    if req.status_code == 200:
-        access_token = req.json()['access_token']
+    if cache.get('APIGEE-ACCESS-TOKEN') :
+        access_token = cache.get('APIGEE-ACCESS-TOKEN')
+    else:
+        req = requests.post("https://developer.api.autodesk.com/authentication/v1/authenticate",
+                            data={'client_id': CLIENT_ID,
+                                  'client_secret': CLIENT_SECRET,
+                                  'grant_type': 'client_credentials'
+                                 }, verify=False)
+
+        if req.status_code == 200:
+            access_token = req.json()['access_token']
+            cache.set('APIGEE-ACCESS-TOKEN', access_token, 1700)
 
     return access_token
 
@@ -31,6 +37,7 @@ def create_oss_bucket(bucket):
                        data= json.dumps({"bucketKey" : bucket, "policyKey" : "transient"}) , verify=False)
 
     if req.status_code != 200:
+        print req.json()
         return '{"create_failed"}'
     else:
         return req.json()
