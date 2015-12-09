@@ -44,10 +44,7 @@ def create_oss_bucket(bucket):
 
     if req.status_code != 200:
         print req.json()
-        return '{"create_failed"}'
 
-    else:
-        print req.json()
     return
 
 def upload_oss_obj(bucket,local_file, oss_obj_name):
@@ -64,9 +61,9 @@ def upload_oss_obj(bucket,local_file, oss_obj_name):
                                     "Content-Type": "application/octet-stream"},
                            data=file_to_be_upload, verify=False)
         if req.status_code != 200:
-            return '{"upload_failed"}'
-        else:
-            return req.json()
+            print req.json()
+
+    return
 
 def create_user(email, password):
     user_obj = User.objects.create_user(username=email.split('@')[0],
