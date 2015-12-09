@@ -1,0 +1,68 @@
+ .signup-form form {
+  margin: 0 auto;
+  padding: 17px;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  background: white;
+}
+ .signup-form form .form-control,
+ .signup-form form button {
+  float: left;
+  width: 23.5%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  margin: 0 0 0 2%;
+  font-size: 17px;
+  font-weight: 500;
+}
+@media (max-width: 480px) {
+   .signup-form form .form-control,
+   .signup-form form button {
+    width: 100%;
+    margin: 10px 0 0;
+    display: block;
+    float: none;
+  }
+}
+ .signup-form form .form-control:first-child,
+ .signup-form form button:first-child {
+  margin: 0;
+}
+ .signup-form form .form-control {
+  border-color: #dee1e3;
+  font-weight: 500;
+  color: #34495e;
+}
+ .signup-form form .form-control:-moz-placeholder {
+  color: #34495e;
+}
+ .signup-form form .form-control::-moz-placeholder {
+  color: #34495e;
+  opacity: 1;
+}
+ .signup-form form .form-control:-ms-input-placeholder {
+  color: #34495e;
+}
+ .signup-form form .form-control::-webkit-input-placeholder {
+  color: #34495e;
+}
+ .signup-form form .form-control.placeholder {
+  color: #34495e;
+}
+ .signup-form form .form-control:focus {
+  border-color: #1abc9c;
+}
+ .signup-form form button {
+  width: 23.5%;
+  margin-left: 2%;
+}
+@media (max-width: 480px) {
+   .signup-form form button {
+    width: 100%;
+    margin: 10px 0 0;
+    display: block;
+    float: none;
+  }
+}
