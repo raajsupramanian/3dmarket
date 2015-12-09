@@ -1,6 +1,6 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import TemplateView
-from views import CreateStoreView
+from store.views import CreateStoreView
 
 # Uncomment the next two lines to enable the admin:
 # from django.contrib import admin
