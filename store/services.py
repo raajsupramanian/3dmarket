@@ -4,6 +4,7 @@ from django.core.cache import cache
 import os
 import json
 import requests
+import urllib
 from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
 import datetime
@@ -91,3 +92,22 @@ def create_or_get_store(request):
         store_obj.save()
         create_oss_bucket(store_name)
     return True
+
+def register_oss_object(object_id):
+
+    access_token = get_apigee_token()
+
+    if not access_token :
+        print '{"token_failed"}'
+        return
+
+    req = requests.post("https://developer.api.autodesk.com/viewingservice/v1/register",
+                       headers={"Authorization": "Bearer %s" % access_token,
+                                "Content-Type": "application/json"},
+                       data= json.dumps({"urn" : urllib.urlencode(object_id) }) , verify=False)
+
+    if req.status_code != 200:
+        print req.json()
+
+    return
+
