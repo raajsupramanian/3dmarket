@@ -74,6 +74,7 @@ STATICFILES_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(BASE_DIR, "../assets"),
+    os.path.join(BASE_DIR, "../display_images"),
 )
 
 # List of finder classes that know how to find static files in
@@ -165,3 +166,4 @@ LOGGING = {
     }
 }
 DISPLAY_IMAGES_FOLDER = os.path.join(BASE_DIR, '../display_images')
+GEOMETRY_FILES = os.path.join(BASE_DIR, '../geometry_files')

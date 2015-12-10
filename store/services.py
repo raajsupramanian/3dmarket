@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User, Permission
-from store.models import Store
 from django.core.cache import cache
 import os
 import json
@@ -51,7 +50,7 @@ def create_oss_bucket(bucket):
     return
 
 def upload_oss_obj(bucket,local_file, oss_obj_name):
-
+    print "In OSS Upload"
     access_token = get_apigee_token()
 
     if not access_token :
@@ -65,10 +64,12 @@ def upload_oss_obj(bucket,local_file, oss_obj_name):
                            data=file_to_be_upload, verify=False)
         if req.status_code != 200:
             print req.json()
-
-    return
+            return "Not Uploaded"
+        else:
+            return req.json()["objectId"]
 
 def check_store_created(store_name, user_id):
+    from store.models import Store
     return bool(Store.objects.filter(name=store_name, user_id=user_id))
 
 def create_or_get_store(request):
@@ -79,14 +80,15 @@ def create_or_get_store(request):
         print "User already registered"
         user_obj = User.objects.filter(username=username)[0]
     print user_obj.id
-    permission = Permission.objects.get(name='Can change store')
-    user_obj.user_permissions.add(permission)
-    permission = Permission.objects.get(name='Can delete store')
-    user_obj.user_permissions.add(permission)
+    perms = ('Can add store', 'Can change store', 'Can delete store', 'Can add products', 'Can change products', 'Can delete products',)
+    for perm in perms:
+        permission_obj = Permission.objects.get(name=perm)
+        user_obj.user_permissions.add(permission_obj)
     user_obj = authenticate(username=username, password=password)
     print "authenticated user" + str(user_obj)
     login(request, user_obj)
     if not check_store_created(store_name, user_obj.id):
+        from store.models import Store
         store_obj = Store(user=user_obj, name=store_name, created_date=datetime.datetime.now())
         store_obj.save()
         create_oss_bucket(store_name)
