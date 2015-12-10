@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Autodesk Falcons </title>
+        <title>{{store_data.name}}</title>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -24,7 +24,7 @@
                         <div class="navbar col-sm-12" role="navigation">
                             <div class="navbar-header ">
                                 <button type="button" class="navbar-toggle"></button>
-                                <a class="brand" href="#"><img src="/static/common-files/icons/Spaceship@2x.png" width="50" height="50" alt=""> Store Name </a>
+                                <a class="brand" href="#"><img src="/static/common-files/icons/Spaceship@2x.png" width="50" height="50" alt=""> {{store_data.name}} </a>
                             </div>
                             <div class="collapse navbar-collapse ">
                                 <ul class="nav">
@@ -128,13 +128,11 @@
                             <h3>All Available Products</h3>
                         </div>
                     </div>
-
                     <div class="row features">
-                        <div class="col-sm-3 ">
-                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="80%" height="80%">
-
-                            <h6>Block Model <br> $ 26.00 USD </h6>
-
+                        {% for prod in product_data %}
+                        <div class="col-sm-4 ">
+                            <img src={{prod.display_image}} alt="" width="80%" height="80%">
+                            <h6>{{prod.name}}<br> $ {{prod.price}} USD </h6>
                                 <form action="" method="POST"> {% csrf_token %}
                                   <script
                                     src="https://checkout.stripe.com/checkout.js" class="stripe-button"
@@ -147,52 +145,13 @@
                                   </script>
                                 </form>
                         </div>
-                        <div class="col-sm-4 col-sm-offset-1 ">
-                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="80%" height="80%">
-                            <h6>Based on Bootstrap</h6>
-                            HTML layout is based on one of the common and reliable frameworks at this time - Twitter Bootstrap v2.3.2.
-                        </div>
-                        <div class="col-sm-3 col-sm-offset-1 ">
-                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="80%" height="80%">
-                            <h6>Save Your Time</h6>
-                            Use your time for generating new ideas for your startup. Take a break from the routine.
-                        </div>
-                    </div>
-                    <div class="row features">
-                        <div class="col-sm-3">
-                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="80%" height="80%">
-                            <h6>Block Model</h6>
-                            You can easily combine any components in a variety of design projects.
-                        </div>
-                        <div class="col-sm-4 col-sm-offset-1">
-                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="80%" height="80%">
-                            <h6>Based on Bootstrap</h6>
-                            HTML layout is based on one of the common and reliable frameworks at this time - Twitter Bootstrap v2.3.2.
-                        </div>
-                        <div class="col-sm-3 col-sm-offset-1">
-                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="78" height="100">
-                            <h6>Save Your Time</h6>
-                            Use your time for generating new ideas for your startup. Take a break from the routine.
-                        </div>
-                    </div>
-                    <div class="row features">
-                        <div class="col-sm-3">
-                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="100" height="100">
-                            <h6>Block Model</h6>
-                            You can easily combine any components in a variety of design projects.
-                        </div>
-                        <div class="col-sm-4 col-sm-offset-1">
-                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="100" height="100">
-                            <h6>Based on Bootstrap</h6>
-                            HTML layout is based on one of the common and reliable frameworks at this time - Twitter Bootstrap v2.3.2.
-                        </div>
-                        <div class="col-sm-3 col-sm-offset-1">
-                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="78" height="100">
-                            <h6>Save Your Time</h6>
-                            Use your time for generating new ideas for your startup. Take a break from the routine.
-                        </div>
-                    </div>
-                </div>
+                      {% if forloop.counter|divisibleby:"3"  %}
+                      </div>
+                      <div class="row features">
+                        {% endif %}
+                        {% endfor %}
+              </div>
+              </div>
             </section>
 
             <section class="content-26">

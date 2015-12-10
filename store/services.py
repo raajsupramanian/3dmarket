@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate, login
 from django.db import IntegrityError
 import datetime
 
+
 CLIENT_ID='ZVu6cFFGxMJohgsaDsbLfu9jNs4pQEif'
 CLIENT_SECRET='47C2LzDqv9b7C120'
 
@@ -94,11 +95,12 @@ def create_or_get_store(request):
     login(request, user_obj)
     if not check_store_created(store_name, user_obj.id):
         from store.models import Store
-        store_obj = Store(user=user_obj, name=store_name, created_date=datetime.datetime.now())
+        store_obj = Store(user=user_obj, name=store_name, created_date=datetime.datetime.now(), description="Your Description here")
         store_obj.save()
         create_oss_bucket(store_name)
-
-    return True
+    else:
+        store_obj = Store.objects.get(name=store_name, user_id=user_id)
+    return store_obj.id
 
 def register_oss_object(object_id):
 

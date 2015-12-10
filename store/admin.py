@@ -18,7 +18,7 @@ class StoreAdmin(admin.ModelAdmin):
     list_display = ('name', 'created_date', 'updated_date')
     fieldsets = (
         (None, {
-            'fields': (('name', 'created_date', 'updated_date'),)
+            'fields': (('name', 'created_date', 'updated_date'),'description')
         }),
        )
     inlines = [ProductsInline,]
