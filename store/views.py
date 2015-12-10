@@ -12,3 +12,10 @@ class CreateStoreView(View):
         store_id = create_store(user_obj, store_name)
         create_oss_bucket(store_name)
         return HttpResponse('correct')
+
+class DisplayStoreView(View):
+    @csrf_exempt
+    def get(self, request):
+
+
+        return HttpResponse('correct')
