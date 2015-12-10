@@ -1,1 +1,5 @@
 *.pyc
+
+display_images/
+geometry_files/
+

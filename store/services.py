@@ -1,6 +1,7 @@
 from django.contrib.auth.models import User, Permission
 from django.core.cache import cache
 import os
+import base64
 import json
 import requests
 import urllib
@@ -107,7 +108,7 @@ def register_oss_object(object_id):
     req = requests.post("https://developer.api.autodesk.com/viewingservice/v1/register",
                        headers={"Authorization": "Bearer %s" % access_token,
                                 "Content-Type": "application/json"},
-                       data= json.dumps({"urn" : urllib.urlencode(object_id) }) , verify=False)
+                       data= json.dumps({"urn" : base64.b64encode(object_id) }) , verify=False)
 
     if req.status_code != 200:
         print req.json()
