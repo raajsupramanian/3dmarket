@@ -1,9 +1,12 @@
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from store.models import Store
 from django.core.cache import cache
 import os
 import json
 import requests
+from django.contrib.auth import authenticate, login
+from django.db import IntegrityError
+import datetime
 
 CLIENT_ID='ZVu6cFFGxMJohgsaDsbLfu9jNs4pQEif'
 CLIENT_SECRET='47C2LzDqv9b7C120'
@@ -65,13 +68,26 @@ def upload_oss_obj(bucket,local_file, oss_obj_name):
 
     return
 
-def create_user(email, password):
-    user_obj = User.objects.create_user(username=email.split('@')[0],
-                                 email=email,
-                                 password=password)
-    return user_obj
+def check_store_created(store_name, user_id):
+    return bool(Store.objects.filter(name=store_name, user_id=user_id))
 
-def create_store(user_obj, store_name):
-    store_obj = Store.objects.create(user=user_obj, name=store_name)
-    return store_obj.id
-
+def create_or_get_store(request):
+    email, password, store_name, username = request.POST['email'], request.POST['password'], request.POST['store_name'], request.POST['user_name']
+    try:
+        user_obj = User.objects.create_user(username=username, email=email, password=password, is_staff=1)
+    except IntegrityError:
+        print "User already registered"
+        user_obj = User.objects.filter(username=username)[0]
+    print user_obj.id
+    permission = Permission.objects.get(name='Can change store')
+    user_obj.user_permissions.add(permission)
+    permission = Permission.objects.get(name='Can delete store')
+    user_obj.user_permissions.add(permission)
+    user_obj = authenticate(username=username, password=password)
+    print "authenticated user" + str(user_obj)
+    login(request, user_obj)
+    if not check_store_created(store_name, user_obj.id):
+        store_obj = Store(user=user_obj, name=store_name, created_date=datetime.datetime.now())
+        store_obj.save()
+        create_oss_bucket(store_name)
+    return True

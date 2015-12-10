@@ -72,8 +72,9 @@
                                 <div class="signup-form">
                                     <form method="POST" action="/createshop"> {% csrf_token %}
                                         <div class="clearfix">
+                                            <input  type="text" class="form-control" placeholder="User Name" name="user_name">
                                             <input  type="text" class="form-control" placeholder="Store Name" name="store_name">
-                                            <input  type="text" class="form-control" placeholder="Your E-mail" name="email">
+                                            <input  type="email" class="form-control" placeholder="Your E-mail" name="email">
                                             <input  type="password" class="form-control" placeholder="Password" name="password">
                                             <button class="btn btn-primary">Create Shop</button>
                                         </div>
