@@ -20,6 +20,10 @@ class Store(models.Model):
 
     class Meta:
         db_table = "stores"
+    def button(self):
+        return mark_safe('<a href="/store/'+str(self.id)+'">View Store</a>')
+    button.short_description = ''
+    button.allow_tags = True
 
 class Products(DirtyFieldsMixin, models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)

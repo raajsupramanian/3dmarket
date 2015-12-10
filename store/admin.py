@@ -1,6 +1,7 @@
 from django.contrib import admin
 from models import Store, Products
 from widgets import ImageWidgetAdmin
+from django.utils.html import mark_safe
 
 class ProductsInline(ImageWidgetAdmin):
     extra = 0
@@ -15,14 +16,18 @@ class ProductsInline(ImageWidgetAdmin):
 
 @admin.register(Store)
 class StoreAdmin(admin.ModelAdmin):
-    list_display = ('name', 'created_date', 'updated_date')
+    def button(self, obj):
+        return mark_safe('<a href="/store/'+str(obj.id)+'">View Store</a>')
+    button.short_description = 'Action'
+    button.allow_tags = True    
+    list_display = ('name', 'created_date', 'updated_date', 'button')
     fieldsets = (
         (None, {
-            'fields': (('name', 'created_date', 'updated_date'),'description')
+            'fields': (('name', 'created_date', 'updated_date', 'button'),'description')
         }),
        )
     inlines = [ProductsInline,]
-    readonly_fields = ('created_date','updated_date')
+    readonly_fields = ('updated_date', 'button')
     def get_queryset(self, request):
         """Limit Pages to those that belong to the request's user."""
         qs = super(StoreAdmin, self).get_queryset(request)

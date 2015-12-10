@@ -128,7 +128,7 @@
                     <div class="row features">
                         {% for prod in product_data %}
                         <div class="col-sm-4 ">
-                            <img src={{prod.display_image}} alt="" width="80%" height="80%">
+                            <a href='/product/{{prod.id}}' ><img src={{prod.display_image}} alt="" width="80%" height="80%"></a>
                             <h6>{{prod.name}}<br> $ {{prod.price}} USD </h6>
                                 <form action="" method="POST"> {% csrf_token %}
                                   <script

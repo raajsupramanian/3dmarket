@@ -7,6 +7,7 @@ import json
 from django.http import HttpResponseRedirect
 from django.template.response import TemplateResponse
 from models import Products, Store
+import base64
 
 class AuthView(View):
     @csrf_exempt
@@ -24,9 +25,9 @@ class CreateStoreView(View):
 
 class DisplayStoreView(View):
     @csrf_exempt
-    def get(self, request):
+    def get(self, request, **kwargs):
+        store_id=self.kwargs.get('storeid')
         context_dict = {}
-        store_id = 8
         store_obj = Store.objects.get(id=store_id)
         context_dict['store_data'] = store_obj
         prod_obj = Products.objects.filter(store=store_obj)
@@ -38,3 +39,15 @@ class DisplayStoreView(View):
 
         context_dict['product_len'] = prod_obj.count()
         return TemplateResponse(request, 'store.html', context_dict)
+
+class ProductView(View):
+    @csrf_exempt
+    def get(self, request, **kwargs):
+        pid = self.kwargs.get('pid')
+        print pid
+        prod_obj = Products.objects.get(id=pid)
+        urn = prod_obj.oss_object
+        urn_encode = base64.b64encode(urn)
+        print urn_encode
+        context_dict = {'prod_name': prod_obj.name, 'urn_en':urn_encode, 'store_name': prod_obj.store.name}
+        return TemplateResponse(request, 'product.html', context_dict)

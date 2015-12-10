@@ -27,7 +27,7 @@
 
             function initialize() {
                var options = {
-                  'document' : 'urn:dXJuOmFkc2sub2JqZWN0czpvcy5vYmplY3Q6cm9ja2V0MS9nZW9yZ2VoYXJ0X3RldHJhaGVkcm9uLW9wZW5mYWNlX3dHT1hickQuc3Rs',
+                  'document' : 'urn:{{urn_en}}' ,
                   'env':'AutodeskProduction',
                   'getAccessToken': getToken,
                   'refreshToken': getToken,
@@ -80,7 +80,7 @@
                         <div class="navbar col-sm-12" role="navigation">
                             <div class="navbar-header ">
                                 <button type="button" class="navbar-toggle"></button>
-                                <a class="brand" href="#"><img src="/static/common-files/icons/Spaceship@2x.png" width="50" height="50" alt=""> Store Name </a>
+                                <a class="brand" href="#"><img src="/static/common-files/icons/Spaceship@2x.png" width="50" height="50" alt=""> {{store_name}} </a>
                             </div>
                             <div class="collapse navbar-collapse ">
                                 <ul class="nav">
@@ -100,7 +100,7 @@
                 <div class="container">
                     <div class="row ">
                         <div class="col-sm-12 ">
-                            <h3>Products Name</h3>
+                            <h3>{{prod_name}}</h3>
                         </div>
                         <div class="col-sm-12">
                             <div id="viewer" style="position:absolute; width:100%; height:500px;"></div>
