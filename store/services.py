@@ -74,9 +74,9 @@ def check_store_created(store_name, user_id):
     return bool(Store.objects.filter(name=store_name, user_id=user_id))
 
 def create_or_get_store(request):
-    email, password, store_name, username = request.POST['email'], request.POST['password'], request.POST['store_name'], request.POST['user_name']
+    password, store_name, username = request.POST['password'], request.POST['store_name'], request.POST['user_name']
     try:
-        user_obj = User.objects.create_user(username=username, email=email, password=password, is_staff=1)
+        user_obj = User.objects.create_user(username=username, password=password, is_staff=1)
     except IntegrityError:
         print "User already registered"
         user_obj = User.objects.filter(username=username)[0]
@@ -93,6 +93,7 @@ def create_or_get_store(request):
         store_obj = Store(user=user_obj, name=store_name, created_date=datetime.datetime.now())
         store_obj.save()
         create_oss_bucket(store_name)
+
     return True
 
 def register_oss_object(object_id):

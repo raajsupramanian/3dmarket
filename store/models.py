@@ -1,9 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
-from services import upload_oss_obj
+from services import upload_oss_obj, register_oss_object
 from dirtyfields import DirtyFieldsMixin
 import datetime
+
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
 
 class Store(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -30,15 +34,23 @@ class Products(DirtyFieldsMixin, models.Model):
     display_img.allow_tags = True
 
     def save(self, *args, **kw):
-        upload_file = 0
+
         if self.pk is None:
             self.created_date = datetime.datetime.now()
-            upload_file = 1
-        if self.is_dirty() and 'oss_url' in self.get_dirty_fields().keys():
-            print "Uploading File"
-            file_name = self.oss_url.url.split('/')[-1]
-            self.oss_object = upload_oss_obj(self.store.name, self.oss_url.url, file_name)
+
         super(Products, self).save(*args, **kw)
 
     def __unicode__(self):
         return str(self.id);
+
+
+# method for updating
+@receiver(post_save, sender=Products, dispatch_uid="update_oss_files")
+def update_oss(sender, instance, **kwargs):
+    print "Uploading File"
+    file_name = instance.oss_url.url.split('/')[-1]
+    instance.oss_object = upload_oss_obj(instance.store.name, instance.oss_url.url, file_name)
+    print "Registering file"
+    if instance.oss_object :
+        print "Registering File"
+        register_oss_object(instance.oss_object)
