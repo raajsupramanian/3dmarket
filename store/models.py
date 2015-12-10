@@ -12,6 +12,7 @@ from django.dispatch import receiver
 class Store(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200, default=None, blank=True)
     created_date = models.DateTimeField()
     updated_date = models.DateTimeField(default=datetime.datetime.now)
     class Meta:
@@ -60,6 +61,3 @@ def update_oss(sender, instance, **kwargs):
     instance.oss_object = oss_object_id
     instance.save()
     post_save.connect(update_oss, sender=Products)
-
-
-
