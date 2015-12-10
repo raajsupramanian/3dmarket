@@ -41,23 +41,20 @@ class Products(DirtyFieldsMixin, models.Model):
     def __unicode__(self):
         return str(self.id);
 
-
 # method for updating
 @receiver(post_save, sender=Products)
 def update_oss(sender, instance, **kwargs):
 
     print "Uploading File"
     file_name = instance.oss_url.url.split('/')[-1]
-
     oss_object_id = upload_oss_obj(instance.store.name, instance.oss_url.url, file_name)
+    print "OSS Object Id %s" % oss_object_id
+    print "Upload done"
 
-    print "Uplocad done"
-
-    #print "Registering file"
-    if instance.oss_object :
+    if oss_object_id :
         print "Registering File"
         register_oss_object(oss_object_id)
-    print "Register done"
+        print "Register done"
 
     post_save.disconnect(update_oss, sender=Products)
     instance.oss_object = oss_object_id

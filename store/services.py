@@ -46,6 +46,7 @@ def create_oss_bucket(bucket):
                                 "Content-Type": "application/json"},
                        data= json.dumps({"bucketKey" : bucket, "policyKey" : "transient"}) , verify=False)
 
+    print "OSS Bucket : %s" % req.status_code
     if req.status_code != 200:
         print req.json()
 
@@ -64,6 +65,8 @@ def upload_oss_obj(bucket,local_file, oss_obj_name):
                            headers={"Authorization": "Bearer %s" % access_token,
                                     "Content-Type": "application/octet-stream"},
                            data=file_to_be_upload, verify=False)
+
+        print "OSS Upload : %s" % req.status_code
         if req.status_code != 200:
             print req.json()
             return "Not Uploaded"
@@ -112,5 +115,5 @@ def register_oss_object(object_id):
 
     if req.status_code != 200:
         print req.json()
-
+    print "Registraion : %s" % req.status_code
     return
