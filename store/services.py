@@ -114,4 +114,3 @@ def register_oss_object(object_id):
         print req.json()
 
     return
-

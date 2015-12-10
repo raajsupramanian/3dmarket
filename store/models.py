@@ -23,7 +23,7 @@ class Products(DirtyFieldsMixin, models.Model):
     price = models.FloatField(help_text="Value in $")
     display_image = models.ImageField(null=True, upload_to=settings.DISPLAY_IMAGES_FOLDER)
     oss_url = models.FileField(verbose_name="Geometry File", help_text="Your Geometry file", upload_to=settings.GEOMETRY_FILES)
-    oss_object = models.CharField(max_length=200, default=None)
+    oss_object = models.CharField(max_length=200, default=None, blank=True)
     created_date = models.DateTimeField()
     updated_date = models.DateTimeField(default=datetime.datetime.now())
     class Meta:
@@ -34,10 +34,8 @@ class Products(DirtyFieldsMixin, models.Model):
     display_img.allow_tags = True
 
     def save(self, *args, **kw):
-
         if self.pk is None:
             self.created_date = datetime.datetime.now()
-
         super(Products, self).save(*args, **kw)
 
     def __unicode__(self):
