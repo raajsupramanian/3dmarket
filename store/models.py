@@ -43,12 +43,26 @@ class Products(DirtyFieldsMixin, models.Model):
 
 
 # method for updating
-@receiver(post_save, sender=Products, dispatch_uid="update_oss_files")
+@receiver(post_save, sender=Products)
 def update_oss(sender, instance, **kwargs):
+
     print "Uploading File"
     file_name = instance.oss_url.url.split('/')[-1]
-    instance.oss_object = upload_oss_obj(instance.store.name, instance.oss_url.url, file_name)
-    print "Registering file"
+
+    oss_object_id = upload_oss_obj(instance.store.name, instance.oss_url.url, file_name)
+
+    print "Uplocad done"
+
+    #print "Registering file"
     if instance.oss_object :
         print "Registering File"
-        register_oss_object(instance.oss_object)
+        register_oss_object(oss_object_id)
+    print "Register done"
+
+    post_save.disconnect(update_oss, sender=Products)
+    instance.oss_object = oss_object_id
+    instance.save()
+    post_save.connect(update_oss, sender=Products)
+
+
+
