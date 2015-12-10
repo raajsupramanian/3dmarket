@@ -36,9 +36,14 @@ class DisplayStoreView(View):
                 image_file = prod.display_image.url.split('/')[-1]
                 prod.display_image = '/static/' + image_file
         context_dict['product_data'] = prod_obj
-
         context_dict['product_len'] = prod_obj.count()
         return TemplateResponse(request, 'store.html', context_dict)
+
+    def post(self, request, **kwargs):
+        store_id=self.kwargs.get('storeid')
+        store_obj = Store.objects.get(id=store_id)
+        context_dict = {'store_name': store_obj.name, 'storeid':store_id}
+        return TemplateResponse(request, 'confirm.html', context_dict)
 
 class ProductView(View):
     @csrf_exempt
