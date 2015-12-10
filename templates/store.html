@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Sample 15</title>
+        <title>Autodesk Falcons </title>
         <meta name="apple-mobile-web-app-capable" content="yes" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <meta name="apple-mobile-web-app-status-bar-style" content="black" />
@@ -12,7 +12,7 @@
         <!-- Using only with Flat-UI (free)-->
         <link rel="stylesheet" href="/static/common-files/css/icon-font.css">
         <!-- end -->
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="/static/store/css/style.css">
     </head>
 
     <body>
@@ -24,14 +24,14 @@
                         <div class="navbar col-sm-12" role="navigation">
                             <div class="navbar-header">
                                 <button type="button" class="navbar-toggle"></button>
-                                <a class="brand" href="#"><img src="/static/common-files/icons/Infinity-Loop@2x.png" width="50" height="50" alt=""> Startup</a>
+                                <a class="brand" href="#"><img src="/static/common-files/icons/Spaceship@2x.png" width="50" height="50" alt=""> Store Name </a>
                             </div>
                             <div class="collapse navbar-collapse">
                                 <ul class="nav">
                                     <li><a href="#">Home</a></li>
                                     <li><a href="#">Products</a></li>
                                     <li><a href="#">Cart</a></li>
-                                    <li><a href="#">Contact US</a></li>
+                                    <li><a href="#">Contact</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -39,34 +39,13 @@
                 </div>
                 <div class="header-background"></div>
             </header>
-            <section class="header-8-sub bg-peter-river">
-                <div class="background">
-                    &nbsp;
-                </div>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-6 col-sm-offset-3">
-                            <h3>Startup Design Framework</h3>
-                            <p class="lead">
-                                We’ve created the product that will help your
-                                startup to look even better.
-                            </p>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-sm-8 col-sm-offset-2">
-                            <img src="img/browser@2x.png" width="620" height="234" alt="">
-                        </div>
-                    </div>
-                </div>
-            </section>
 
             <!-- content-27  -->
-            <section class="content-27 bg-clouds">
+            <section class="content-27 bg-clouds" style="padding:80px">
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-4 hidden-phone">
-                            <img class="nosvg" src="img/rocket@2x.png" width="271" height="271" alt="">
+                            <img class="nosvg" src="/static/store/img/rocket@2x.png" width="271" height="271" alt="">
                             <span class="svg">
                                 <svg version="1.1" id="spaceship" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
                                 width="271px" height="271px" viewBox="0 0 402 401" enable-background="new 0 0 402 401" xml:space="preserve">
@@ -131,14 +110,11 @@
                                 </svg> </span>
                         </div>
                         <div class="col-sm-7 col-sm-offset-1">
-                            <h3>Mathematical Art </h3>
+                            <h3> Mathematical Art </h3>
                             <p>
-                                In this demo version of Startup Framework, we show you the structure of our framework.
-                                The package includes few samples, components and photos.
+                                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
                             </p>
-                            <div class="btns">
-                                <a class="btn btn-inverse" href="#products"><span>Explore</span></a>
-                            </div>
+
                         </div>
                     </div>
                 </div>
@@ -149,20 +125,29 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-8 col-sm-offset-2">
-                            <h3>You have the design, you have the code</h3>
-                            <p class="lead">
-                                You can decide whether to create your site
-                                using UI Kit blocks or samples.
-                            </p>
+                            <h3>All Available Products</h3>
                         </div>
                     </div>
 
                     <div class="row features">
                         <div class="col-sm-3 ">
-                            <img src="3d-images/24-cell.jpg" alt="" width="80%" height="80%">
-                            <h6>Block Model</h6>
-                           
-                            <a class="btn btn-sm btn-inverse" href="#">Buy Now</a>
+                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="80%" height="80%">
+                            <h6>Block Model <br> $ 26.00 USD </h6>
+
+
+                                <form action="" method="POST"> {% csrf_token %}
+                                  <script
+                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="pk_test_HXlDsossLSsTdtjcJ3SGbsj1"
+                                    data-amount="2600"
+                                    data-name="Autodesk Falcons"
+                                    data-description="Block Model"
+                                    data-image="/static/common-files/icons/Card@2x.png"
+                                    data-locale="auto">
+                                  </script>
+
+                                </form>
+                            
                         </div>
                         <div class="col-sm-4 col-sm-offset-1 ">
                             <img src="/static/3d-samples/24-cell.jpg" alt="" width="80%" height="80%">
@@ -194,85 +179,23 @@
                     </div>
                     <div class="row features">
                         <div class="col-sm-3">
-                            <img src="img/chat@2x.png" alt="" width="100" height="100">
+                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="100" height="100">
                             <h6>Block Model</h6>
                             You can easily combine any components in a variety of design projects.
                         </div>
                         <div class="col-sm-4 col-sm-offset-1">
-                            <img src="img/responsive@2x.png" alt="" width="100" height="100">
+                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="100" height="100">
                             <h6>Based on Bootstrap</h6>
                             HTML layout is based on one of the common and reliable frameworks at this time - Twitter Bootstrap v2.3.2.
                         </div>
                         <div class="col-sm-3 col-sm-offset-1">
-                            <img src="img/ps@2x.png" alt="" width="78" height="100">
+                            <img src="/static/3d-samples/24-cell.jpg" alt="" width="78" height="100">
                             <h6>Save Your Time</h6>
                             Use your time for generating new ideas for your startup. Take a break from the routine.
                         </div>
                     </div>
                 </div>
             </section>
-
-
-
-            <!-- content-18  -->
-            <section class="content-18">
-                <div class="container">
-                    <div id="c-18_myCarousel" class="carousel slide" data-interval="600000">
-                        <div class="controls">
-                            <a class="carousel-control left disabled" href="#" data-slide="prev"> </a>
-                            <a class="carousel-control right" href="#c-18_myCarousel" data-slide="next"> </a>
-                        </div>
-                        <div class="carousel-inner">
-                            <div class="item active">
-                                <div class="quote-text">
-                                    Colored, stylish icons can easily be modified and used in a wide variety of projects
-                                </div>
-                                <div class="quote-author">
-                                    @stSilent, DesignModo.com
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="quote-text">
-                                    Colored, stylish icons can easily be modified and used in a wide variety of projects
-                                </div>
-                                <div class="quote-author">
-                                    @stSilent, DesignModo.com
-                                </div>
-                            </div>
-                            <div class="item">
-                                <div class="quote-text">
-                                    Colored, stylish icons can easily be modified and used in a wide variety of projects
-                                </div>
-                                <div class="quote-author">
-                                    @stSilent, DesignModo.com
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row quotes">
-                        <div class="col-sm-3">
-                            <h6>@mc</h6>
-                            Easy to change and easy to create new elements with color.
-                        </div>
-                        <div class="col-sm-4 col-sm-offset-1">
-                            <h6>@madbyte</h6>
-                            Awesome Kit. It’s more easiest way to make my startup. Thanks!
-                        </div>
-                        <div class="col-sm-3 col-sm-offset-1">
-                            <h6>@stSilent</h6>
-                            Create new elements with color swatches. Wow!
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- footer-12 -->
-            <footer class="footer-12">
-                <div class="container">
-                    Made with <span class="fui-heart"> </span> in New York
-                </div>
-            </footer>
-        </div>
 
         <!-- Placed at the end of the document so the pages load faster -->
         <script src="/static/common-files/js/jquery-1.10.2.min.js"></script>
@@ -282,6 +205,6 @@
         <script src="/static/common-files/js/jquery.svg.js"></script>
         <script src="/static/common-files/js/jquery.svganim.js"></script>
         <script src="/static/common-files/js/startup-kit.js"></script>
-        <script src="js/script.js"></script>
+        <script src="/static/store/js/script.js"></script>
     </body>
 </html>
