@@ -132,12 +132,13 @@
                             <h6>{{prod.name}}<br> $ {{prod.price}} USD </h6>
                                 <form action="" method="POST"> {% csrf_token %}
                                   <script
-                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    src="https://checkout.stripe.com/checkout.js"
+                                    class="stripe-button"
                                     data-key="pk_test_HXlDsossLSsTdtjcJ3SGbsj1"
                                     data-amount="2600"
-                                    data-name="Autodesk Pronto"
-                                    data-description="Block Model"
-                                    data-image="/static/common-files/icons/Card@2x.png"
+                                    data-name="{{store_data.name}}"
+                                    data-description="{{prod.name}}"
+                                    data-image="/"
                                     data-locale="auto">
                                   </script>
                                 </form>
