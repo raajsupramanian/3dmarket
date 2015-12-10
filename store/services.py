@@ -107,10 +107,9 @@ def register_oss_object(object_id):
     req = requests.post("https://developer.api.autodesk.com/viewingservice/v1/register",
                        headers={"Authorization": "Bearer %s" % access_token,
                                 "Content-Type": "application/json"},
-                       data= json.dumps({"urn" : urllib.urlencode(object_id) }) , verify=False)
+                       data= json.dumps({"urn" : urllib.urlencode(str(object_id)) }) , verify=False)
 
     if req.status_code != 200:
         print req.json()
 
     return
-
