@@ -2,7 +2,7 @@ from django.contrib.auth.models import User, Permission
 from django.core.cache import cache
 import os
 import base64
-import json
+import json, uuid
 import requests
 import urllib
 from django.contrib.auth import authenticate, login
@@ -53,7 +53,7 @@ def create_oss_bucket(bucket):
 
     return
 
-def upload_oss_obj(bucket,local_file, oss_obj_name):
+def upload_oss_obj(bucket, local_file, oss_obj_name):
     print "In OSS Upload"
     access_token = get_apigee_token()
 
@@ -95,9 +95,10 @@ def create_or_get_store(request):
     login(request, user_obj)
     if not check_store_created(store_name, user_obj.id):
         from store.models import Store
-        store_obj = Store(user=user_obj, name=store_name, created_date=datetime.datetime.now(), description="Your Description here")
+        bucket_id = str(uuid.uuid4())
+        store_obj = Store(user=user_obj, name=store_name, bucket_id=bucket_id , created_date=datetime.datetime.now(), description="Your Description here")
         store_obj.save()
-        create_oss_bucket(store_name)
+        create_oss_bucket(bucket_id )
     else:
         store_obj = Store.objects.get(name=store_name, user_id=user_id)
     return store_obj.id
@@ -109,6 +110,7 @@ def register_oss_object(object_id):
     if not access_token :
         print '{"token_failed"}'
         return
+
 
     req = requests.post("https://developer.api.autodesk.com/viewingservice/v1/register",
                        headers={"Authorization": "Bearer %s" % access_token,

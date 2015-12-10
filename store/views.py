@@ -26,7 +26,7 @@ class DisplayStoreView(View):
     @csrf_exempt
     def get(self, request):
         context_dict = {}
-        store_id = 7
+        store_id = 8
         store_obj = Store.objects.get(id=store_id)
         context_dict['store_data'] = store_obj
         prod_obj = Products.objects.filter(store=store_obj)

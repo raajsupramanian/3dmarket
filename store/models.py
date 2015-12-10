@@ -4,6 +4,7 @@ from django.conf import settings
 from services import upload_oss_obj, register_oss_object
 from dirtyfields import DirtyFieldsMixin
 import datetime
+import uuid
 
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -12,9 +13,11 @@ from django.dispatch import receiver
 class Store(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
+    bucket_id = models.CharField(max_length=200, default=str(uuid.uuid4()))
     description = models.CharField(max_length=200, default=None, blank=True)
     created_date = models.DateTimeField()
     updated_date = models.DateTimeField(default=datetime.datetime.now)
+
     class Meta:
         db_table = "stores"
 
@@ -48,7 +51,7 @@ def update_oss(sender, instance, **kwargs):
 
     print "Uploading File"
     file_name = instance.oss_url.url.split('/')[-1]
-    oss_object_id = upload_oss_obj(instance.store.name, instance.oss_url.url, file_name)
+    oss_object_id = upload_oss_obj(instance.store.bucket_id, instance.oss_url.url, file_name)
     print "OSS Object Id %s" % oss_object_id
     print "Upload done"
 
