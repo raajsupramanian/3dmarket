@@ -131,8 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'store',
-    # Uncomment the next line to enable the admin:
-    # 'django.contrib.admin',
+    'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -165,3 +164,4 @@ LOGGING = {
         },
     }
 }
+DISPLAY_IMAGES_FOLDER = os.path.join(BASE_DIR, '../display_images')
