@@ -2,3 +2,4 @@ Django==1.9
 MySQL-python==1.2.5
 requests==2.5.3
 Pillow==3.0.0
+django-dirtyfields==0.8.1

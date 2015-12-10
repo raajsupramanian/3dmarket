@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
+from services import upload_oss_obj
+from dirtyfields import DirtyFieldsMixin
 import datetime
 
 class Store(models.Model):
@@ -11,13 +13,32 @@ class Store(models.Model):
     class Meta:
         db_table = "stores"
 
-class Products(models.Model):
+class Products(DirtyFieldsMixin, models.Model):
     store = models.ForeignKey(Store, on_delete=models.CASCADE)
     name = models.CharField(max_length=200)
-    price = models.CharField(max_length=200)
+    price = models.FloatField(help_text="Value in $")
     display_image = models.ImageField(null=True, upload_to=settings.DISPLAY_IMAGES_FOLDER)
-    oss_url = models.CharField(max_length=200)
-    created_date = models.DateTimeField(default=datetime.datetime.now)
-    updated_date = models.DateTimeField(default=datetime.datetime.now)
+    oss_url = models.FileField(verbose_name="Geometry File", help_text="Your Geometry file", upload_to=settings.GEOMETRY_FILES)
+    oss_object = models.CharField(max_length=200, default=None)
+    created_date = models.DateTimeField()
+    updated_date = models.DateTimeField(default=datetime.datetime.now())
     class Meta:
         db_table = "products"
+
+    def display_img(self):
+        return '<img src="%s"/>' % self.display_image
+    display_img.allow_tags = True
+
+    def save(self, *args, **kw):
+        upload_file = 0
+        if self.pk is None:
+            self.created_date = datetime.datetime.now()
+            upload_file = 1
+        if self.is_dirty() and 'oss_url' in self.get_dirty_fields().keys():
+            print "Uploading File"
+            file_name = self.oss_url.url.split('/')[-1]
+            self.oss_object = upload_oss_obj(self.store.name, self.oss_url.url, file_name)
+        super(Products, self).save(*args, **kw)
+
+    def __unicode__(self):
+        return str(self.id);
